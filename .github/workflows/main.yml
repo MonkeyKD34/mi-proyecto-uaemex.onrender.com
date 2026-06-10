@@ -1,0 +1,17 @@
+name: Build and Save Docker Image
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Image
+        run: docker build -t mi-sitio-web .
+      - name: Archive Image
+        run: docker save -o mi_web.tar mi-sitio-web
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-tar-image
+          path: mi_web.tar
+          
